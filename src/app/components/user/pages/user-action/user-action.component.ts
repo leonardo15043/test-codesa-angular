@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-action',
@@ -7,9 +8,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserActionComponent implements OnInit {
 
-  constructor() { }
+  public title:string; 
+
+  constructor(
+    private activatedRoute:ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.getParams();
+  }
+
+  private getParams(){
+    this.activatedRoute.params.subscribe( params =>{
+      switch (params['type']) {
+        case 'edit':
+          this.title = "Editar Usuario";
+          break;
+        case 'add':
+          this.title = "Agregar Usuario";
+          break;
+        case 'view':
+          this.title = "Ver Usuario";
+          break;
+      }
+    });
   }
 
 }

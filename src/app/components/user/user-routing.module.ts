@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'action/:type',
     component: UserActionComponent
+  },
+  {
+    path: 'action/:type/:id',
+    component: UserActionComponent
   }
 ];
 

@@ -1,5 +1,5 @@
 <h1>Lista de usuarios</h1>
-<button type="button" class="btn btn-outline-success mt-2 mb-2" >Crear</button>
+<button type="button" class="btn btn-outline-success mt-2 mb-2" (click)="action('add')">Crear</button>
 <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -12,15 +12,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>lahrnanedz15043@gmail.com</td>
-        <td>AUDITOR</td>
-        <td>Si</td>
+      <tr *ngFor="let user of users; let i = index">
+        <th scope="row">{{ i+1 }}</th>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.idRol }}</td>
+        <td>{{ (user.active) ? 'Si' : 'No' }}</td>
         <td> 
-            <button type="button" class="btn btn-primary m-2">Editar</button>
-            <button type="button" class="btn btn-danger ">Eliminar</button>
+          <button type="button" class="btn btn-primary m-2" (click)="action('edit',user.idUser)">Editar</button>
+          <button type="button" class="btn btn-danger" (click)="action('delete',user.idUser)">Eliminar</button>
         </td>
       </tr>
     </tbody>
