@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, Routes } from '@angular/router';
+import { statusHttp } from 'src/app/core/helpers/utilities';
 import { User } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
 
@@ -14,7 +16,8 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private _userService:UserService,
-    private router:Router
+    private router:Router,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -39,11 +42,28 @@ export class UserListComponent implements OnInit {
         this.router.navigate(['user','action','view',id]);
         break;
       case 'delete':
-        
+        this.deleteUser(id!);
         break;
       default:
         break;
     }
+  }
+
+  public deleteUser( id_user:number ){
+    this._userService.deleteUser( id_user ).subscribe( (info:any) =>{
+      this.users = this.users.filter(data => data.idUser != id_user);
+      this._snackBar.open(info.message,'',
+        {
+          panelClass: 'alert-info',
+          duration: 4000,
+        });
+    },(err)=>{
+      this._snackBar.open(statusHttp(err.status,err.error),'',
+      {
+        panelClass: 'alert-error',
+        duration: 40000,
+      });
+    });
   }
 
 }

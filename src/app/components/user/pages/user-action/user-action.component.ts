@@ -84,14 +84,14 @@ export class UserActionComponent implements OnInit {
           duration: 4000,
         });
       },(err)=>{
-        this._snackBar.open(statusHttp(err.status,err.error),'',
+        this._snackBar.open(statusHttp(err.status,err.error.message),'',
         {
           panelClass: 'alert-error',
           duration: 4000,
         });
-      });
-      
+      }); 
     }
+    
   }
 
   private getUser( idUser:number ){

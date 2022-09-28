@@ -37,6 +37,10 @@ export class UserService {
         return this.http.post<User>(`/api/user`, body , { headers: this.headers });
     }
 
+    deleteUser( id_user:number ) {
+        return this.http.delete(`/api/user/${ id_user }`, { headers: this.headers });
+    }
+
     getRols():Observable<Rol[]>{
         return this.http.get<Rol[]>(`/api/rol`, { headers: this.headers }).pipe( map( data => data ));
     }

@@ -6,15 +6,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: red;
     font-size: 12px;
 }
-.alert-error {
+.alert-error, .alert-info {
     margin: 0 auto !important;
-    background-color: black;
     color: white;
     width: fit-content;
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+}
+.alert-error {
+    background-color: black;
 }
 .alert-info {
-    margin: 0 auto !important;
     background-color: green;
-    color: white;
-    width: fit-content;
 }
