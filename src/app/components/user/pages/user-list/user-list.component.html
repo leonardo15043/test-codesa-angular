@@ -1,5 +1,10 @@
 <h1>Lista de usuarios</h1>
 <button type="button" class="btn btn-outline-success mt-2 mb-2" (click)="action('add')">Crear</button>
+<div class="row mt-3 mb-3">
+  <div class="col-md-2">
+    <input type="text" class="form-control " id="search" name="search" placeholder="Buscar" (keyup)="search(searchName)" #searchName>
+  </div>
+</div>
 <table class="table">
     <thead class="thead-dark">
       <tr>

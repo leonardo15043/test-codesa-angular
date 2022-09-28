@@ -66,4 +66,10 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  public search( search:HTMLInputElement ){
+    this._userService.searchUser(search.value).subscribe(( users:User[])=>{
+      this.users = users;
+    })
+  }
+
 }

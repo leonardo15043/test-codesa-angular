@@ -41,6 +41,10 @@ export class UserService {
         return this.http.delete(`/api/user/${ id_user }`, { headers: this.headers });
     }
 
+    searchUser( search:string ){
+        return this.http.get<User[]>(`/api/user/query`, { params:{ name:search }, headers: this.headers }).pipe( map( data => data ));
+    }
+
     getRols():Observable<Rol[]>{
         return this.http.get<Rol[]>(`/api/rol`, { headers: this.headers }).pipe( map( data => data ));
     }
