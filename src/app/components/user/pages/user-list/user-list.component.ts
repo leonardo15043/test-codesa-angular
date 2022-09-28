@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, Routes } from '@angular/router';
+import { Router } from '@angular/router';
 import { statusHttp } from 'src/app/core/helpers/utilities';
 import { User } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
@@ -24,12 +24,26 @@ export class UserListComponent implements OnInit {
     this.getUserAll();
   }
 
+  /**
+   * Get the list of users
+   */
   public getUserAll(){
-    this._userService.getUserAll().subscribe((users:User[])=>{
+    this._userService.getUserAll().subscribe(( users:User[] )=>{
       this.users = users;
+    },(err)=>{
+      this._snackBar.open(statusHttp(err.status,err.error),'',
+      {
+        panelClass: 'alert-error',
+        duration: 4000,
+      });
     });
   }
 
+  /**
+   * Redirect to a CRUD action depending on the type action
+   * @param type 
+   * @param id 
+   */
   public action( type:string, id?:number ){
     switch (type) {
       case 'add':
@@ -44,13 +58,15 @@ export class UserListComponent implements OnInit {
       case 'delete':
         this.deleteUser(id!);
         break;
-      default:
-        break;
     }
   }
 
+  /**
+   * Delete a user by id
+   * @param id_user 
+   */
   public deleteUser( id_user:number ){
-    this._userService.deleteUser( id_user ).subscribe( (info:any) =>{
+    this._userService.deleteUser( id_user ).subscribe(( info:any ) =>{
       this.users = this.users.filter(data => data.idUser != id_user);
       this._snackBar.open(info.message,'',
         {
@@ -61,15 +77,25 @@ export class UserListComponent implements OnInit {
       this._snackBar.open(statusHttp(err.status,err.error),'',
       {
         panelClass: 'alert-error',
-        duration: 40000,
+        duration: 4000,
       });
     });
   }
 
+  /**
+   * Search users by name
+   * @param search 
+   */
   public search( search:HTMLInputElement ){
-    this._userService.searchUser(search.value).subscribe(( users:User[])=>{
+    this._userService.searchUser(search.value).subscribe(( users:User[] )=>{
       this.users = users;
-    })
+    },(err)=>{
+      this._snackBar.open(statusHttp(err.status,err.error),'',
+      {
+        panelClass: 'alert-error',
+        duration: 4000,
+      });
+    });
   }
 
 }

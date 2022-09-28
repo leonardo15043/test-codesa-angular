@@ -5,7 +5,6 @@ import { UserService } from '../../services/user.service';
 import { User, Rol } from '../../models/user.interface'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { statusHttp } from 'src/app/core/helpers/utilities';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-action',
@@ -20,7 +19,6 @@ export class UserActionComponent implements OnInit {
   public loading = false;
   public rols:Rol[];
   public params:Params;
-  private service:Observable<User>;
 
   constructor(
     private activatedRoute:ActivatedRoute,
@@ -33,6 +31,9 @@ export class UserActionComponent implements OnInit {
     this.getParams();
   }
 
+  /**
+   * Depending on the parameters get executes an action of the crud
+   */
   private getParams(){
     this.activatedRoute.params.subscribe( params =>{
       this.params = params;
@@ -54,6 +55,10 @@ export class UserActionComponent implements OnInit {
     });
   }
 
+  /**
+   * Load the data entry form for the user entity
+   * @param user 
+   */
   private setupForm( user?:User ){
     this.userForm = this.formBuilder.group({
       name: [ user?.name, Validators.required ],
@@ -64,20 +69,15 @@ export class UserActionComponent implements OnInit {
     this.loading = true;
   }
 
+  /**
+   * Save or update user data
+   */
   public saveUser(){
     this.isSubmit = true;
-    let msg = "";
 
     if(this.userForm.valid){
-      if( this.params['type'] == "add") {
-        this.service = this._userService.saveUser(this.userForm.value);
-        msg = 'Datos guardados correctamente'; 
-      }else if( this.params['type'] == "edit") {
-        this.service = this._userService.saveUser(this.userForm.value);
-        msg = 'Datos actualizados correctamente'; 
-      } 
-
-      this.service.subscribe((user:User)=>{
+      this._userService.saveUser(this.userForm.value).subscribe((user:User)=>{
+        const msg = ( this.params['type'] == "add") ? 'Datos guardados correctamente': 'Datos actualizados correctamente';
         this._snackBar.open(msg,'',
         {
           panelClass: 'alert-info',
@@ -91,16 +91,28 @@ export class UserActionComponent implements OnInit {
         });
       }); 
     }
-    
   }
 
+  /**
+   * Fetches a user's data by id and assigns it to the form
+   * @param idUser 
+   */
   private getUser( idUser:number ){
     this._userService.getUser( idUser ).subscribe((user:User) =>{
       this.setupForm(user);
       this.userForm.addControl('idUser', new FormControl(user.idUser));
-    })
+    },(err)=>{
+      this._snackBar.open(statusHttp(err.status,err.error.message),'',
+      {
+        panelClass: 'alert-error',
+        duration: 4000,
+      });
+    }); 
   }
 
+  /**
+   * Get the list of roles
+   */
   private getRols(){
     this._userService.getRols().subscribe((rols:Rol[])=>{
       this.rols = rols;

@@ -1,3 +1,9 @@
+/**
+ * Assign a custom message depending on the HTTP request
+ * @param status 
+ * @param message 
+ * @returns String
+ */
 export function statusHttp( status:number | string, message?:any ):string{
     let response:string = "";
     switch (status) {
