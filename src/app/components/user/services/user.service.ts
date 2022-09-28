@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { User } from '../models/user.interface';
+import { User, Rol } from '../models/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,24 @@ export class UserService {
     }
 
     getUserAll():Observable<User[]>{
-        return this.http.get<User[]>(`/api/user`, {  headers: this.headers  }).pipe( map( data => data ));
+        return this.http.get<User[]>(`/api/user`, { headers: this.headers }).pipe( map( data => data ));
+    }
+
+    getUser( id_user:number ){
+        return this.http.get<User>(`/api/user/${id_user}`, {  headers: this.headers  }).pipe( map( data => data ));
+    }
+
+    saveUser( user:User ) {
+        const body = JSON.stringify(user);
+        return this.http.post<User>(`/api/user`, body , { headers: this.headers });
+    }
+
+    updateUser( user:User ) {
+        const body = JSON.stringify(user);
+        return this.http.post<User>(`/api/user`, body , { headers: this.headers });
+    }
+
+    getRols():Observable<Rol[]>{
+        return this.http.get<Rol[]>(`/api/rol`, { headers: this.headers }).pipe( map( data => data ));
     }
 }

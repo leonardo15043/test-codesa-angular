@@ -4,12 +4,14 @@ import { RouterModule } from '@angular/router';
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { UserRoutingModule } from './user-routing.module';
 import { UserActionComponent } from './pages/user-action/user-action.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    UserRoutingModule
+    UserRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [
     UserListComponent,

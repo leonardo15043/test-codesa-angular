@@ -5,3 +5,8 @@ export interface User{
     idUser:number;
     active:boolean;
 }
+
+export interface Rol{
+    idRol:number;
+    name:string;
+}
